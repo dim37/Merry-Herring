@@ -18,8 +18,22 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('bd_connector');
+        //$this->load->helper('url_helper');
+    }
+
 	public function index()
 	{
+		
 		$this->load->view('welcome_message');
+		$data['user'] = $this->bd_connector->get_all_user();
+		
+		foreach ($data['user'] as $item)
+		{
+			echo $item["name"];
+		}
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-class Index extends CI_Controller
+class Home extends CI_Controller
 {
 	public function view($page='home'){
 		echo 'все работает';
@@ -23,6 +23,7 @@ class Index extends CI_Controller
 
 		$data["content"]='Сообщение о том что все работает';
 		$this->load->view('content',$data);
+			echo 'все работает';
 	}
 	public function registration(){
 		$this->load->view('registration');
@@ -32,7 +33,7 @@ class Index extends CI_Controller
 	}
 
 
-	public function exit(){
+	public function exit_profile(){
 		if(isset($_COOKIE["hash"]))
 		{
 			setcookie('hash', " ", time() - 1000000);

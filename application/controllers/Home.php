@@ -20,12 +20,6 @@ class Home extends CI_Controller
 
 	public function index(){
 
-		if(!isset($_COOKIE["hash"]))
-		{
-			$hash = md5(mt_rand(10000,1000000));
-			setcookie('hash', $hash, time() + 60*60*24*30);
-		}
-
 		$data["message"]='Сообщение индекс';
 		$this->load->view('header',$data);
 
@@ -34,15 +28,38 @@ class Home extends CI_Controller
 			echo 'все работает';
 	}
 	public function registration(){
-		$this->load->view('registration');
+		/*$this->load->view('registration');*/
+		echo "registration";
 	}	
 
-	public function registration_confirm($login,$password,$mail){
+	public function registration_confirm($login="root2@mail.ru",$password="root2@mail.ru",$mail="root2@mail.ru"){
+			$result = $this->bd_connector->registre_user($login,$password,$mail);
+			/*redirect('/Home/registration/');*/
+			/*header("Location: /registration/");*/
+			if($result===TRUE)
+			{
+				echo $result;
+			}
+			else
+			{
+				echo "Ошибка".$result;
+			}
+
+			
 
 	}
 
 	public function login(){
-		$this->load->view('login');
+		/*$this->load->view('login');*/
+		echo "login";
+	}
+	public function login_user($login="root@mail.ru",$password="root@mail.ru"){
+		
+
+		$result = $this->bd_connector->login_user($login,$password);
+		echo $result;
+		if($result!="incorect login"&&$result!="incorrect password"){echo "Все верно";}
+		
 	}
 
 

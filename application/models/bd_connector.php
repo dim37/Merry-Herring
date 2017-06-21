@@ -655,5 +655,46 @@ class bd_connector extends CI_Model {
 
 			}
 		}
+		// false - в случаи провала
+		// в случаии успеха возврощяет масив сообщений
+		//	  $mass[i]['id']   							- int
+		//	  $mass[i]['id_user'] 	 					- int
+		//	  $mass[i]['name']  						- varchar
+		//	  $mass[i]['text']  						- varchar
+
+		public function get_last_chat_mess($hash,$id_chat,$id_last)
+		{
+			$this->db->select('*');
+			$this->db->from('hashes');
+			$this->db->where('hash', $hash);
+			$query = $this->db->get();
+		    $val = $query->row_array();
+
+			$user_id = $val["id_user"];
+
+			$this->db->select('*');
+			$this->db->from('chat_user');
+			$this->db->where('id_user', $user_id);
+			$this->db->where('id_chat', $id_chat);
+			$query = $this->db->get();
+		    $val = $query->row_array();
+
+			if(count($val)== 0)
+			{
+				return false;
+			}
+			else
+			{
+				$this->db->select(' message.id,user_dop_info.id_user,user.name,text');
+				$this->db->from('message');
+
+				$this->db->join('user_dop_info', 'user_dop_info.id_user = message.id_user');
+				$this->db->where('id_chat', $id_chat);
+
+				$this->db->where('id >', $id_last);
+		    	return $query->row_array();
+
+			}
+		}
 }
  ?>

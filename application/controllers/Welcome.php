@@ -29,11 +29,21 @@ class Welcome extends CI_Controller {
 	{
 		
 		$this->load->view('welcome_message');
-		$data['user'] = $this->bd_connector->get_all_user();
-		
-		foreach ($data['user'] as $item)
-		{
-			echo $item["name"];
+		$data['user'] = $this->bd_connector->login_user("root@mail.ru","root@mail.ru");
+		echo $data['user'] ;
+		$vak = $this->bd_connector->gat_user_freand($data['user']) ;
+		for ($i=0; $i < count($vak) ; $i++) {
+			echo "<div>"; 
+				foreach ($vak[$i] as $key => $value) 
+				{
+					echo "($key => $value)";
+				}
+			echo "</div>"; 
 		}
+	
+
+
+
+		 $this->bd_connector->login_user('name','name');
 	}
 }

@@ -1,6 +1,14 @@
 <?php
 class Home extends CI_Controller
 {
+	public function __construct()
+    {
+            parent::__construct();
+            $this->load->model('bd_connector');
+            /*$this->load->helper('url_helper');*/
+    }
+
+
 	public function view($page='home'){
 		echo 'все работает';
 		echo ' страница '.$page;
@@ -28,9 +36,16 @@ class Home extends CI_Controller
 	public function registration(){
 		$this->load->view('registration');
 	}	
+
+	public function registration_confirm($login,$password,$mail){
+
+	}
+
 	public function login(){
 		$this->load->view('login');
 	}
+
+
 
 
 	public function exit_profile(){

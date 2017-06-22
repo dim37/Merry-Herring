@@ -61,6 +61,7 @@ class Home extends CI_Controller
 	}
 
 	public function login($login=null,$password=null,$error=null){
+		
 
 		if(!is_null($login)&&!is_null($password)){
 			$data['login']=$login;
@@ -75,8 +76,7 @@ class Home extends CI_Controller
 			/*$this->load->view('login');*/
 			echo "login";
 		}
-		
-		
+
 	}
 	public function login_user($login="root@mail.ru",$password="root@mail.ru"){
 		

@@ -1,7 +1,7 @@
 <style>
 	body{
 		margin: 0;
-		background: url(Ressourse/BackgroundNOVK.jpg) no-repeat;
+		background: url(Ressourse/BackgroundNOVK.jpg);
 		background-size: 100%;
 	}
 	div.Login{

@@ -36,7 +36,7 @@ class Home extends CI_Controller
 			{
 				$data['error']=$error;
 			}
-			/*$this->load->view('registration',$data);*/
+			$this->load->view('Registration',$data);
 		}
 
 		
@@ -44,16 +44,14 @@ class Home extends CI_Controller
 	}	
 
 	public function registration_confirm($login=null,$password=null,$mail=null){
-			$result = $this->bd_connector->registre_user($login,$password,$mail);
-			/*redirect('/Home/registration/');*/
-		
+			$result = $this->bd_connector->registre_user($login,$password,$mail);	
 			if($result===TRUE)
 			{
 				header("Location: /Oleg/Merry-Herring/Home/index/");
 			}
 			else
 			{
-				echo "Ошибка ".$result;
+				header("Location: /Oleg/Merry-Herring/Home/registration/");
 			}
 
 			
@@ -61,24 +59,12 @@ class Home extends CI_Controller
 	}
 
 	public function login($login=null,$password=null,$error=null){
-		
-
-		if(!is_null($login)&&!is_null($password)){
 			$data['login']=$login;
 			$data['password']=$password;
-			if(!is_null($error))
-			{
-				$data['error']=$error;
-			}
-			/*$this->load->view('login',$data);*/
-		}
-		else{
-			/*$this->load->view('login');*/
-			echo "login";
-		}
-
+			$data['Error']=$error;
+			$this->load->view('LoginIn',$data);
 	}
-	public function login_user($login="root@mail.ru",$password="root@mail.ru"){
+	public function login_confirm($login="root@mail.ru",$password="root@mail.ru"){
 		
 		$result = $this->bd_connector->login_user($login,$password);
 		if($result!="incorect login"&&$result!="incorrect password"){

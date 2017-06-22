@@ -67,7 +67,7 @@
 
 </style>
 
-<form action="http://novk.com" method="post">
+<form action="http://novk.com/Home/login_confirm" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">
@@ -98,7 +98,15 @@
 						<label>Логин: </label>
 					</th>
 					<th>
-						<input type="text" name="Login" maxlength="32" class="Enter Inp"/>
+					<?php
+					if(!is_null($login))
+					{
+						echo '<input type="text" name="Login" value="'.$login.'" maxlength="32" class="Enter Inp"/>';
+					}
+					else{
+						echo '<input type="text" name="Login" maxlength="32" class="Enter Inp"/>';
+					}
+					?>
 					</th>
 				</tr>
 			</table>
@@ -110,7 +118,15 @@
 						<label>Пароль: </label>
 					</th>
 					<th>
-						<input type="Password" name="Password" maxlength="32" class="Enter Inp"/>
+					<?php
+					if(!is_null($password))
+					{
+						echo '<input type="Password" name="Password" value="'.$password.'" maxlength="32" class="Enter Inp"/>';
+					}
+					else{
+						echo '<input type="Password" name="Password" maxlength="32" class="Enter Inp"/>';
+					}
+					?>
 					</th>
 				</tr>
 			</table>
@@ -118,7 +134,7 @@
 		<td>
 		<center>
 			<div>
-			<button type="button" class="RefBtn"><a href="Registration.php">Регистрация</a></button>
+			<button type="button" class="RefBtn"><a href="registration">Регистрация</a></button>
 			<input type="submit" name="Submit" class="Inp">
 			</div>
 		</center>

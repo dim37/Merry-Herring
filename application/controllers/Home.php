@@ -19,28 +19,35 @@ class Home extends CI_Controller
 	}
 
 	public function index(){
-
+				setcookie('okey', 555, time() + 60*60*24*30);
 		$data["message"]='Сообщение индекс';
 		$this->load->view('header',$data);
 
 		$data["content"]='Сообщение о том что все работает';
 		$this->load->view('content',$data);
 			echo 'все работает';
-	}
-	public function registration($login=null,$password=null,$mail=null,$error=null){
-		if(!is_null($login)&&!is_null($password)&&!is_null($mail)){
-			$data['login']=$login;
-			$data['password']=$password;
-			$data['mail']=$mail;
-			if(!is_null($error))
-			{
-				$data['error']=$error;
-			}
-			$this->load->view('Registration',$data);
-		}
 
-		
-		echo "registration";
+	}
+	public function registration(){
+			if(isset($_COOKIE["hash"])){
+				header("Location: /Oleg/Merry-Herring/Home/index/");
+			}
+			elseif(isset($_POST["login"],$_POST["password"],$_POST["mail"])){
+				$data['login']=$_POST["login"];
+				$data['password']=$_POST["password"];
+				$data['mail']=$_POST["mail"];
+			}
+			else{
+				$data['login']=null;
+				$data['password']=null;
+				$data['mail']=null;
+			}
+			if(isset($_POST["error"]))
+				$data['error']=$error;
+			else
+				$data['error']=null;
+			
+			$this->load->view('Registration',$data);
 	}	
 
 	public function registration_confirm($login=null,$password=null,$mail=null){
@@ -51,7 +58,7 @@ class Home extends CI_Controller
 			}
 			else
 			{
-				header("Location: /Oleg/Merry-Herring/Home/registration/");
+				header("Location: /Oleg/Merry-Herring/Home/registration/".$login."/".$password."/".$mail);
 			}
 
 			
@@ -59,6 +66,9 @@ class Home extends CI_Controller
 	}
 
 	public function login($login=null,$password=null,$error=null){
+			if(isset($_COOKIE["hash"])){
+				header("Location: /Oleg/Merry-Herring/Home/index/");
+			}
 			$data['login']=$login;
 			$data['password']=$password;
 			$data['Error']=$error;
@@ -68,6 +78,7 @@ class Home extends CI_Controller
 		
 		$result = $this->bd_connector->login_user($login,$password);
 		if($result!="incorect login"&&$result!="incorrect password"){
+			setcookie('hashes', $result, time() + 60*60*24*30,'/Oleg/Merry-Herring/');
 			header("Location: /Oleg/Merry-Herring/Home/index/");
 		}
 		else {

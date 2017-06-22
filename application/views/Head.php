@@ -83,14 +83,18 @@
 	label.Head{
 		font-size: 32px;
 	}
+	div.Control{
+		vertical-align: top;
+		display: inline-block;
+	}
 	div.Content{
+		vertical-align: top;
+		display: inline-block;
 		margin: 30px;
 		background: linear-gradient(to top left, rgba(72, 61, 139, 0.9), rgba(186, 85, 211, 0.9));
     	border-radius: 8px;
     	padding: 10px;
-	}
-	th.Content{
-		width: 100%;
+    	width: 80%;
 	}
 	dd{
 		margin-right: 0px;
@@ -102,22 +106,14 @@
 <div class="Head">
 	<button type="button" class="HeadBtn"><a href="Feed">NOVK</a></button>
 </div>
-<table>
-<tr>
-	<th>
-				<dd>
-					<button type="button" class="RefBtn Content"><a href="Profil">Моя странница</a></button>
-				</dd>
-				<dd>
-					<button type="button" class="RefBtn Content"><a href="Message">Сообщения</a></button>
-				</dd>
-				<dd>
-					<button type="button" class="RefBtn Content"><a href="Friends">Друзья</a></button>
-				</dd>
-	</th>
-	<th class="Content">
-		<div class="Content">
-		</div>
-	</th>
-</tr>
-</table>
+<div class="Control">
+<dd>
+	<button type="button" class="RefBtn Content"><a href="Profil">Моя странница</a></button>
+</dd>
+<dd>
+	<button type="button" class="RefBtn Content"><a href="Message">Сообщения</a></button>
+</dd>
+<dd>
+	<button type="button" class="RefBtn Content"><a href="Friends">Друзья</a></button>
+</dd>
+</div>

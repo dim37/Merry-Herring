@@ -7,6 +7,9 @@ class Home extends CI_Controller
             $this->load->model('bd_connector');
     }
 	public function index(){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Oleg/Merry-Herring/Home/login/");
+			}
 		$this->load->view('Head');	
 		$data["message"]='Сообщение индекс';
 		$this->load->view('header',$data);
@@ -39,7 +42,6 @@ class Home extends CI_Controller
 				$data['email']=null;
 				$data['error']=null;
 			}			
-			$this->load->view('Head');
 			$this->load->view('Registration',$data);
 	}	
 
@@ -64,7 +66,6 @@ class Home extends CI_Controller
 				$data['password']=null;
 				$data['error']=null;
 			}
-			$this->load->view('Head');
 			$this->load->view('LoginIn',$data);
 	}
 

@@ -8,11 +8,21 @@ class Profile extends CI_Controller
     }
 	public function friend_list(){
 		if(isset($_COOKIE["hash"])){
-			$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);	
-			foreach ($result as $key => $value) {
-				echo "{$key} => {$value}";
+			if(true){
+				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);	
+				foreach ($result as $key => $value) {
+					echo $value;
+				}
+					
+			}
+				else{
+				$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);	
+				foreach ($result as $key => $value) {
+					echo "{$key} => {$value}";
+				}
 			}
 		}
+		$this->load->view('Head');	
 	}
 	public function profile($id='1'){
 		if(isset($_POST["login"]))

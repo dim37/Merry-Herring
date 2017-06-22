@@ -121,9 +121,9 @@
 					</th>
 					<th>
 					<?php
-					if(!is_null($mail))
+					if(!is_null($email))
 					{
-						echo '<input type="text" name="email" value="'.$mail.'" maxlength="100" class="Enter Inp"/>';
+						echo '<input type="text" name="email" value="'.$email.'" maxlength="100" class="Enter Inp"/>';
 					}
 					else{
 						echo '<input type="text" name="email" maxlength="100" class="Enter Inp"/>';

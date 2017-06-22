@@ -5,26 +5,14 @@ class Home extends CI_Controller
     {
             parent::__construct();
             $this->load->model('bd_connector');
-            /*$this->load->helper('url_helper');*/
     }
-
-
-	public function view($page='home'){
-		echo 'все работает';
-		echo ' страница '.$page;
-	}
-	public function viewSum($page='6',$page2='5'){
-		echo 'все работает';
-		echo ' Ваше число '.($page+$page2);
-	}
-
 	public function index(){
+		$this->load->view('Head');	
 		$data["message"]='Сообщение индекс';
 		$this->load->view('header',$data);
 
 		$data["content"]='Сообщение о том что все работает';
 		$this->load->view('content',$data);
-			echo 'все работает';
 
 	}
 	public function registration(){
@@ -41,16 +29,17 @@ class Home extends CI_Controller
 				else{
 					$data['login']=$_POST["login"];
 					$data['password']=$_POST["password"];
-					$data['mail']=$_POST["email"];
+					$data['email']=$_POST["email"];
 					$data['error']=$result;
 				}
 			}
 			else{
 				$data['login']=null;
 				$data['password']=null;
-				$data['mail']=null;
+				$data['email']=null;
 				$data['error']=null;
 			}			
+			$this->load->view('Head');
 			$this->load->view('Registration',$data);
 	}	
 
@@ -75,7 +64,7 @@ class Home extends CI_Controller
 				$data['password']=null;
 				$data['error']=null;
 			}
-
+			$this->load->view('Head');
 			$this->load->view('LoginIn',$data);
 	}
 

@@ -10,8 +10,10 @@ class Profile extends CI_Controller
 		if(isset($_COOKIE["hash"])){
 			if(true){
 				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);	
+				echo "string";
+				echo count($result);
 				foreach ($result as $key => $value) {
-					echo $value;
+					echo "{$key} => {$value}";
 				}
 					
 			}

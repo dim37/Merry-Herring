@@ -80,15 +80,17 @@
 	<tr>
 		<td>
 		<?php
-		if(!is_null($Error))
+		if(!is_null($error))
+		{
 			echo '<tr>
 				<th>
 					<label> * </label>
 				</th>
 				<th>
-					<label>'.$Error.'</label>
+					<label>'.$error.'</label>
 				</th>
 			</tr>';
+		}
 		?>
 		</td>
 		<td>
@@ -101,10 +103,10 @@
 					<?php
 					if(!is_null($login))
 					{
-						echo '<input type="text" name="Login" value="'.$login.'" maxlength="32" class="Enter Inp"/>';
+						echo '<input type="text" name="login" value="'.$login.'" maxlength="32" class="Enter Inp"/>';
 					}
 					else{
-						echo '<input type="text" name="Login" maxlength="32" class="Enter Inp"/>';
+						echo '<input type="text" name="login" maxlength="32" class="Enter Inp"/>';
 					}
 					?>
 					</th>
@@ -121,10 +123,10 @@
 					<?php
 					if(!is_null($mail))
 					{
-						echo '<input type="text" name="Email" value="'.$mail.'" maxlength="100" class="Enter Inp"/>';
+						echo '<input type="text" name="email" value="'.$mail.'" maxlength="100" class="Enter Inp"/>';
 					}
 					else{
-						echo '<input type="text" name="Email" maxlength="100" class="Enter Inp"/>';
+						echo '<input type="text" name="email" maxlength="100" class="Enter Inp"/>';
 					}
 					?>
 					</th>
@@ -141,10 +143,10 @@
 					<?php
 					if(!is_null($password))
 					{
-						echo '<input type="Password" name="Password" value="'.$password.'" maxlength="32" class="Enter Inp"/>';
+						echo '<input type="Password" name="password" value="'.$password.'" maxlength="32" class="Enter Inp"/>';
 					}
 					else{
-						echo '<input type="Password" name="Password" maxlength="32" class="Enter Inp"/>';
+						echo '<input type="Password" name="password" maxlength="32" class="Enter Inp"/>';
 					}
 					?>
 					</th>
@@ -158,7 +160,7 @@
 						<label>Повторить пароль: </label>
 					</th>
 					<th>
-						<input type="Password" name="RePassword" maxlength="32" class="Enter Inp"/>
+						<input type="Password" name="repassword" maxlength="32" class="Enter Inp"/>
 					</th>
 				</tr>
 			</table>

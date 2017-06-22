@@ -80,7 +80,7 @@
 	<tr>
 		<td>
 		<?php
-		if ($Error != "" && $Error != 0)
+		if(!is_null($Error))
 			echo '<tr>
 				<th>
 					<label> * </label>

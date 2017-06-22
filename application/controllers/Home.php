@@ -27,43 +27,68 @@ class Home extends CI_Controller
 		$this->load->view('content',$data);
 			echo 'все работает';
 	}
-	public function registration(){
-		/*$this->load->view('registration');*/
+	public function registration($login=null,$password=null,$mail=null,$error=null){
+		if(!is_null($login)&&!is_null($password)&&!is_null($mail)){
+			$data['login']=$login;
+			$data['password']=$password;
+			$data['mail']=$mail;
+			if(!is_null($error))
+			{
+				$data['error']=$error;
+			}
+			/*$this->load->view('registration',$data);*/
+		}
+
+		
 		echo "registration";
 	}	
 
-	public function registration_confirm($login="root2@mail.ru",$password="root2@mail.ru",$mail="root2@mail.ru"){
+	public function registration_confirm($login=null,$password=null,$mail=null){
 			$result = $this->bd_connector->registre_user($login,$password,$mail);
 			/*redirect('/Home/registration/');*/
-			/*header("Location: /registration/");*/
+		
 			if($result===TRUE)
 			{
-				echo $result;
+				header("Location: /Oleg/Merry-Herring/Home/index/");
 			}
 			else
 			{
-				echo "Ошибка".$result;
+				echo "Ошибка ".$result;
 			}
 
 			
 
 	}
 
-	public function login(){
-		/*$this->load->view('login');*/
-		echo "login";
+	public function login($login=null,$password=null,$error=null){
+
+		if(!is_null($login)&&!is_null($password)){
+			$data['login']=$login;
+			$data['password']=$password;
+			if(!is_null($error))
+			{
+				$data['error']=$error;
+			}
+			/*$this->load->view('login',$data);*/
+		}
+		else{
+			/*$this->load->view('login');*/
+			echo "login";
+		}
+		
+		
 	}
 	public function login_user($login="root@mail.ru",$password="root@mail.ru"){
 		
-
 		$result = $this->bd_connector->login_user($login,$password);
-		echo $result;
-		if($result!="incorect login"&&$result!="incorrect password"){echo "Все верно";}
+		if($result!="incorect login"&&$result!="incorrect password"){
+			header("Location: /Oleg/Merry-Herring/Home/index/");
+		}
+		else {
+			header("Location: /Oleg/Merry-Herring/Home/login/".$login."/".$password);
+		}
 		
 	}
-
-
-
 
 	public function exit_profile(){
 		if(isset($_COOKIE["hash"]))

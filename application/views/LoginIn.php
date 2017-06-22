@@ -67,7 +67,7 @@
 
 </style>
 
-<form action="http://novk.com/Home/login_confirm" method="post">
+<form action="http://localhost/Oleg/Merry-Herring/Home/login" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">

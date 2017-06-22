@@ -67,7 +67,7 @@
 
 </style>
 
-<form action="http://novk.com/Home/registration_confirm" method="post">
+<form action="http://localhost/Oleg/Merry-Herring/Home/registration" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">
@@ -80,7 +80,7 @@
 	<tr>
 		<td>
 		<?php
-		if ($Error != "" && $Error != 0)
+		if(!is_null($Error))
 			echo '<tr>
 				<th>
 					<label> * </label>

@@ -70,7 +70,7 @@
 
 </style>
 
-<form action="http://localhost/Oleg/Merry-Herring/Home/registration" method="post">
+<form action="registration" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">

@@ -1,8 +1,11 @@
 <style>
 	body{
 		
-		background: url(Ressourse/BackgroundNOVK.jpg);
-		background-size: 100%;
+		background: url(Ressourse/BackgroundNOVK.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 	}
 	div.Login{
 		margin: auto;
@@ -67,7 +70,7 @@
 
 </style>
 
-<form action="/Home/login" method="post">
+<form action="login" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">

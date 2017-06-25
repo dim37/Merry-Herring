@@ -11,11 +11,7 @@ class Home extends CI_Controller
 				header("Location: /Home/login/");
 			}
 		$this->load->view('Head');	
-		$data["message"]='Сообщение индекс';
-		$this->load->view('header',$data);
 
-		$data["content"]='Сообщение о том что все работает';
-		$this->load->view('content',$data);
 
 	}
 	public function registration(){

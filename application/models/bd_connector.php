@@ -6,6 +6,16 @@ class bd_connector extends CI_Model {
         {
                 $this->load->database();
         }
+        //Получает хеш, и возвращает ID юзера
+        public function get_id_user_hash($hash)
+        {
+        	$this->db->select('*');
+			$this->db->from('hashes');
+			$this->db->where('hash', $hash);
+			$query = $this->db->get();
+		    $val = $query->row_array();
+		    return $val["id_user"];
+        }
         // получает дополнительную иноформацию всех пользователей исключаяя текущего
         //	  $mass['id_user']   - int
 		//	  $mass['name'] 	 - varchar
@@ -15,17 +25,11 @@ class bd_connector extends CI_Model {
 		//	  $mass['src']		 - varchar
         public function get_all_user($hash)
 		{    
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];	
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$query = $this->db->get('user_dop_info');
 
-			$this->db->select('*');
+			$this->db->select('*,(SELECT COUNT(*) FROM users_freand WHERE users_freand.id_user_ov = '.$user_id.' AND users_freand.id_user_fr = user_dop_info.id_user AND users_freand.id_freand_type = 1) as frend');
 			$this->db->from('user_dop_info');
 			$this->db->where('id_user !=', $user_id);
 			$query = $this->db->get();
@@ -62,6 +66,7 @@ class bd_connector extends CI_Model {
 			   'password' => $hashPassword ,
 			   'solt' => $solt 
 			);
+			$this->db->insert('user', $data);	
 
 			$this->db->select('*');
 			$this->db->from('user');
@@ -71,7 +76,7 @@ class bd_connector extends CI_Model {
 
 			$user_id = $val["id"];
 
-			$this->db->insert('user', $data);	
+
 			$data = array(
 			   'id_user' => $user_id,
 			   'name' => $login ,
@@ -155,14 +160,8 @@ class bd_connector extends CI_Model {
 		// возврощяет true если удачна 
 		public function cheng_or_create_dop_info($hash,$name,$birtday,$obaut,$phone,$src)
 		{
-		   
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
 			$this->db->select('*');
 			$this->db->from('user_dop_info');
 			$this->db->where('id_user', $user_id );
@@ -204,14 +203,8 @@ class bd_connector extends CI_Model {
 		//	  $mass['src']		 - varchar
 		public function get_dop_info($hash)
 		{
-		   
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
 			$this->db->select('*');
 			$this->db->from('user_dop_info');
 			$this->db->where('id_user', $user_id );
@@ -228,24 +221,15 @@ class bd_connector extends CI_Model {
 		//	  $mass[i]['freand_type_name']			- varchar
 		public function gat_user_freand($hash)
 		{
-		   
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];	
-
-
-			$user_id = $val["id_user"];
 			$this->db->select('user_dop_info.id_user,name,birthday,phone,obaut,src,freand_type_name');
 			$this->db->from('user_dop_info');
 			$this->db->join('users_freand', 'users_freand.id_user_ov = user_dop_info.id_user');
 			$this->db->join('freand_type', 'freand_type.id = users_freand.id_freand_type');
-			$this->db->where('id_user ', $user_id );
+			$this->db->where('id_user_fr ', $user_id );
 
-			$this->db->where('freand_type_name', 1 );
+			$this->db->where('id_freand_type', 1 );
 			$query = $this->db->get();
 		    return $query->result();
 		}
@@ -253,13 +237,7 @@ class bd_connector extends CI_Model {
 		// возврощяет true если удачна ,false он уже состоит в друзьях или уже юыл отправлез запрос 
 		public function send_invait_to_frend($hash,$frend_user_id)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];	
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('users_freand');
@@ -292,13 +270,8 @@ class bd_connector extends CI_Model {
 		//	  $mass[i]['freand_type_name']			- varchar
 		public function show_my_all_invait_to_frend($hash)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];	
 			$this->db->select('user_dop_info.id_user,name,birthday,phone,obaut,src');
 			$this->db->from('users_freand');
 			$this->db->join('user_dop_info', 'user_dop_info.id_user = users_freand.id_user_ov');
@@ -325,24 +298,17 @@ class bd_connector extends CI_Model {
 		// true - в случаии успешного выполнения
 		public function add_freand($hash,$id)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = $this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
-
-			$user_id = $val["id_user"];	
 			$this->db->select('*');
 			$this->db->from('users_freand');
 			$this->db->join('user_dop_info', 'user_dop_info.id_user = users_freand.id_user_ov');
 			$this->db->where('id_user_fr', $user_id);
-			$this->db->where('freand_type_name', 2 );
+			$this->db->where('id_freand_type', 2 );
 			$query = $this->db->get();
 		    if( 0 == count( $query->result()))
 		    {
-		    	return send_invait_to_frend($hash,$id);
+		    	return $this->bd_connector->send_invait_to_frend($hash,$id);
 		    }
 		    else
 		    {
@@ -368,20 +334,13 @@ class bd_connector extends CI_Model {
 		// возврощяет true если удачна ,false если нет 
 		public function drop_from_freand($hash,$id)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
-
-			$user_id = $val["id_user"];	
 			$this->db->select('*');
 			$this->db->from('users_freand');
 			$this->db->join('user_dop_info', 'user_dop_info.id_user = users_freand.id_user_ov');
 			$this->db->where('id_user_fr', $user_id);
-			$this->db->where('freand_type_name', 1 );
+			$this->db->where('id_freand_type', 1 );
 			$query = $this->db->get();
 		    if( 0 == count( $query->result()))
 		    {
@@ -402,13 +361,7 @@ class bd_connector extends CI_Model {
 		// возврощяет true если удачна 
 		public function create_chat_whiz($hash,$id)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$time = time();
 
@@ -448,14 +401,7 @@ class bd_connector extends CI_Model {
 		// false - в случаи провала
 		public function cheng_chat_info($hash,$id,$name,$src)
 		{
-
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
@@ -485,13 +431,7 @@ class bd_connector extends CI_Model {
 		// false - в случаи провала
 		public function send_chat_mess($hash,$id,$text)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
@@ -520,13 +460,7 @@ class bd_connector extends CI_Model {
 		// false - в случаи провала
 		public function add_user_too_chat($hash,$id_chat,$id_user1)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
@@ -561,13 +495,8 @@ class bd_connector extends CI_Model {
 		//	  $mass[i]['crc']  						- varchar
 		public function get_all_user_chat($hash)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
 			$this->db->select('chats.id,name,src');
 			$this->db->from('chat_user');
 			$this->db->join('chats', 'chats.id = chat_user.id_chat');
@@ -582,13 +511,8 @@ class bd_connector extends CI_Model {
 		//	  $mass['crc']  						- varchar
 		public function get_chat_info($hash,$id)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$user_id = $val["id_user"];
 			$this->db->select('chats.id,name,src');
 			$this->db->from('chat_user');
 			$this->db->join('chats', 'chats.id = chat_user.id_chat');
@@ -607,13 +531,7 @@ class bd_connector extends CI_Model {
 
 		public function get_all_chat_mess($hash,$id_chat)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
@@ -645,13 +563,7 @@ class bd_connector extends CI_Model {
 		//	  $mass[i]['rool_name']  					- varchar
 		public function get_all_chat_user($hash,$id_chat)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('chat_user.id_user,user_dop_info.name,user_dop_info.src,chat_roll.rool_name');
 			$this->db->from('chat_user');
@@ -666,13 +578,7 @@ class bd_connector extends CI_Model {
 		// false - в случаи провала
 		public function drop_from_chat($hash,$id_chat,$id_user1)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
@@ -704,13 +610,7 @@ class bd_connector extends CI_Model {
 
 		public function get_last_chat_mess($hash,$id_chat,$id_last)
 		{
-			$this->db->select('*');
-			$this->db->from('hashes');
-			$this->db->where('hash', $hash);
-			$query = $this->db->get();
-		    $val = $query->row_array();
-
-			$user_id = $val["id_user"];
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');

@@ -75,72 +75,26 @@
 <center>
 <div class="LoginHead">
 <center>
-	<label class="Head">Вход</label>
+	<label class="Head">Профиль</label>
 	</center>
 </div>
 </center>
 <div class="LoginContent">
 	<tr>
 		<td>
-		<?php
-		if(!is_null($error))
-			echo '<tr>
-				<th>
-					<label> * </label>
-				</th>
-				<th>
-					<label>'.$error.'</label>
-				</th>
-			</tr>';
-		?>
-		</td>
-		<td>
 			<table>
-				<tr>
-					<th class="Head">
-						<label>Логин: </label>
-					</th>
-					<th>
-					<?php
-					if(!is_null($login))
+								<?php
+					if(!is_null($profile))
 					{
-						echo '<input type="text" name="login" value="'.$login.'" maxlength="32" class="Enter Inp"/>';
-					}
-					else{
-						echo '<input type="text" name="login" maxlength="32" class="Enter Inp"/>';
+						echo '<tr><th class="Head"><label> Айдишник: </label></th><th>'.$profile["id_user"].'</th></tr>
+						<tr><th class="Head"><label> Имя: </label></th><th>'.$profile["name"].'</th></tr>
+						<tr><th class="Head"><label> День рождение: </label></th><th>'.$profile["birthday"].'</th></tr>
+						<tr><th class="Head"><label> О_пользователе: </label></th><th>'.$profile["obaut"].'</th></tr>
+						<tr><th class="Head"><label> Телефон: </label></th><th>'.$profile["phone"].'</th></tr>
+						<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile["src"].'</th></tr>';
 					}
 					?>
-					</th>
-				</tr>
 			</table>
-		</td>
-		<td>
-			<table>
-				<tr>
-					<th class="Head">
-						<label>Пароль: </label>
-					</th>
-					<th>
-					<?php
-					if(!is_null($password))
-					{
-						echo '<input type="Password" name="password" value="'.$password.'" maxlength="32" class="Enter Inp"/>';
-					}
-					else{
-						echo '<input type="Password" name="password" maxlength="32" class="Enter Inp"/>';
-					}
-					?>
-					</th>
-				</tr>
-			</table>
-		</td>
-		<td>
-		<center>
-			<div>
-			<button type="button" class="RefBtn"><a href="registration">Регистрация</a></button>
-			<input type="submit" name="Submit" class="Inp">
-			</div>
-		</center>
 		</td>
 	</tr>
 </div>

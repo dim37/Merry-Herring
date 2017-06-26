@@ -8,26 +8,22 @@ class Home extends CI_Controller
     }
 	public function index(){
 		if(!isset($_COOKIE["hash"])){
-				header("Location: /Oleg/Merry-Herring/Home/login/");
+				header("Location: /Home/login/");
 			}
 		$this->load->view('Head');	
-		$data["message"]='Сообщение индекс';
-		$this->load->view('header',$data);
 
-		$data["content"]='Сообщение о том что все работает';
-		$this->load->view('content',$data);
 
 	}
 	public function registration(){
 			if(isset($_COOKIE["hash"])){
-				header("Location: /Oleg/Merry-Herring/Home/index/");
+				header("Location: /Home/index/");
 			}
 			elseif(isset($_POST["login"],$_POST["password"],$_POST["email"])){
 				$result = $this->bd_connector->registre_user($_POST["login"],$_POST["password"],$_POST["email"]);	
 				if($result===TRUE){
 					$result = $this->bd_connector->login_user($_POST["login"],$_POST["password"]);
-					setcookie('hash', $result, time() + 60*60*24*30,'/Oleg/Merry-Herring/');
-					header("Location: /Oleg/Merry-Herring/Home/index/");
+					setcookie('hash', $result, time() + 60*60*24*30,'/');
+					header("Location: /Home/index/");
 				}
 				else{
 					$data['login']=$_POST["login"];
@@ -47,13 +43,13 @@ class Home extends CI_Controller
 
 	public function login(){
 			if(isset($_COOKIE["hash"])){
-				header("Location: /Oleg/Merry-Herring/Home/index/");
+				header("Location: /Home/index/");
 			}
 			elseif(isset($_POST["login"],$_POST["password"])){
 				$result = $this->bd_connector->login_user($_POST["login"],$_POST["password"]);
 				if($result!="incorect login" && $result!="incorrect password"){
-					setcookie('hash', $result, time() + 60*60*24*30,'/Oleg/Merry-Herring/');
-					header("Location: /Oleg/Merry-Herring/Home/index/");
+					setcookie('hash', $result, time() + 60*60*24*30,'/');
+					header("Location: /Home/index/");
 				}
 				else {
 					$data['login']=$_POST["login"];

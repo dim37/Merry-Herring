@@ -32,9 +32,53 @@
 			text-align: center;
 		}
 	</style>
+	<?php 
+	$Add_list_people;
+	if($friend_list!=null && $chat_people_list!=null)
+	{
+		$bool=true;
+		foreach ($friend_list as $key => $value) {
+			foreach ($chat_people_list as $key2 => $value2) {
+				if($value==$value2)
+					$bool=false;
+			}
+			if($bool)
+				$Add_list_people[]=$value;
+		}
+	}
 
+	 ?>
 		
 	 			<div align="center">
+	 			Список сообщений<br/>
+	 			Добавление участников в чат
+
+
+				<form action="http://novk.com/chat/add_user_too_chat/<?php echo $chat_info['id']; ?>" method="POST">
+				<select name="friend">
+		 			<?php 
+		    	if($Add_list_people!=null)
+		    	foreach ($Add_list_people as $item): ?>
+		    		<option name="friend" value="<?php echo $item->id_user; ?>"><?php echo $item->name; ?></option>
+		    		<?php endforeach; ?>
+		    	</select>
+				<input type="submit" name="" value="Добавить" />
+				</form>
+	 			Удаление участника из чата
+
+			<form action="http://novk.com/chat/drop_from_chat/<?php echo $chat_info['id']; ?>" method="POST">
+			<select name="friend">
+	 			<?php 
+	    	if($chat_people_list!=null)
+	    	foreach ($chat_people_list as $item): ?>
+	    		<option name="friend" value="<?php echo $item->id_user; ?>"><?php echo $item->name; ?></option>
+	    		<?php endforeach; ?>
+	    	</select>
+			<input type="submit" name="" value="Выгнать" />
+			</form>
+
+
+
 	       			<table >
 						<tr>
 		        			<td><img style="width: 50px; height: 50px;" src="<?php echo $chat_info['src']; ?>"/></td>
@@ -45,7 +89,9 @@
     <div>
          <table >
 			
-	    	<?php foreach ($caht_mess as $item): ?>
+	    	<?php 
+	    	if($caht_mess!=null)
+	    	foreach ($caht_mess as $item): ?>
 	    		<tr>
 	    		<td>
 	    		<table class="table">

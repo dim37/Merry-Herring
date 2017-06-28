@@ -10,7 +10,9 @@ class Profile extends CI_Controller
 			
 		if(isset($_COOKIE["hash"])){
 			if(is_null($all))
-				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);			
+				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);		
+			elseif ($all="all") 
+				$result = $this->bd_connector->show_my_all_invait_to_frend($_COOKIE["hash"]);	
 			else
 				$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);
 			$arr=null;
@@ -48,13 +50,19 @@ class Profile extends CI_Controller
 		}
 	}
 	public function add_friend($id){
-		if($this->bd_connector->add_freand($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/");}
+		if($this->bd_connector->add_freand($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/something");}
 			else{}
 	}
 	public function drop_friend($id){
 		if($this->bd_connector->drop_from_freand($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/");}
 			else{}
 		}
+
+	public function send_invait_to_friend($id){
+		if($this->bd_connector->send_invait_to_frend($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/all");}
+			else{}
+		}
+	
 
 }
 ?>

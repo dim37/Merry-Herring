@@ -7,9 +7,10 @@ class Home extends CI_Controller
             $this->load->model('bd_connector');
     }
 	public function index(){
-		if(!isset($_COOKIE["hash"])){
+		if(!isset($_COOKIE["hash"]))
 				header("Location: /Home/login/");
-			}
+			else
+				header("Location: /Profile/profile/");
 		$this->load->view('Head');	
 
 
@@ -66,9 +67,9 @@ class Home extends CI_Controller
 	}
 
 	public function exit_profile(){
-		if(isset($_COOKIE["hash"]))
-		{
-			setcookie('hash', " ", time() - 1000000);
+		if(isset($_COOKIE["hash"])){
+			setcookie('hash', "", time() - 1000000, '/');
+			header("Location: /Home/login/");
 		}
 	}	
 }

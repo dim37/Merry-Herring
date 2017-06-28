@@ -28,9 +28,10 @@
 	</style>
 
   	<div>
+  	Список чатов
         <table class="table">
 	    <?php foreach ($caht_info as $item): ?>
-			<tr onclick="location.href='http://timwock.com/<?php echo $item->id; ?>'">
+			<tr onclick="location.href='http://novk.com/chat/index/<?php echo $item->id; ?>'">
 	        	<td><img src="<?php echo $item->src; ?>"/></td>
 				<td><div><?php echo $item->name; ?></div></td>
 	        </tr>

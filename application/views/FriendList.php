@@ -96,7 +96,6 @@
 						<tr><th class="Head"><label> Телефон: </label></th><th>'.$profile[4].'</th></tr>
 						<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile[5].'</th></tr>';
 						if(count($profile)==7){
-							echo $profile[6];
 							if($profile[6]==1||$profile[6]=="frend")
 							{
 								echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="drop_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';
@@ -106,8 +105,9 @@
 							}
 						}
 						else
-							echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="drop_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';
+							echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="send_invait_to_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';
 
+						echo'<tr><th class="Head"><label></label></th><th><button type="button" class="RefBtn"><a href="http://novk.com/chat/create_chat/'.$profile[0].'">Создать чат</a></button></th></tr>';
 						echo'<tr><th class="Head"><label></label></th><th></th></tr>';
 					}
 					}

@@ -420,7 +420,7 @@ class bd_connector extends CI_Model {
 		}
 		// true - в случаии успеха
 		// false - в случаи провала
-		public function add_user_too_chat($hash,$id_chat,$id_user1)
+		public function add_user_too_chat($hash,$id_chat,$id_user)
 		{
 			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
@@ -439,11 +439,9 @@ class bd_connector extends CI_Model {
 			}
 			else
 			{
-
-				$chat_id = $val['id'];
 				$data = array(
-					'id_user' => $id_user1,
-					'id_chat' => $chat_id,
+					'id_user' => $id_user,
+					'id_chat' => $id_chat,
 					'id_chat_roll' => 2
 				);
 				$this->db->insert('chat_user', $data);

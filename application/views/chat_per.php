@@ -64,20 +64,22 @@
 		    	</select>
 				<input type="submit" name="" value="Добавить" />
 				</form>
-	 			Удаление участника из чата
+				<?php 
+				if($id_chat_roll['id_chat_roll']==1){
+		 			echo 'Удаление участника из чата
+					<form action="http://novk.com/chat/drop_from_chat/'.$chat_info["id"].'" method="POST"><select name="friend">';
+			    	if($chat_people_list!=null)
+			    	foreach ($chat_people_list as $item){
+			    		echo '<option name="friend" value="'.$item->id_user.'">'.$item->name.'</option>';
+			    	}
+			    	echo '</select><input type="submit" name="" value="Выгнать" /></form>';
+				}
+				else
+				{
+					echo '<button type="button" class="RefBtn"><a href="http://novk.com/chat/exit_chat/'.$chat_info["id"].'">Сбежать</a></button>';
+				}
 
-			<form action="http://novk.com/chat/drop_from_chat/<?php echo $chat_info['id']; ?>" method="POST">
-			<select name="friend">
-	 			<?php 
-	    	if($chat_people_list!=null)
-	    	foreach ($chat_people_list as $item): ?>
-	    		<option name="friend" value="<?php echo $item->id_user; ?>"><?php echo $item->name; ?></option>
-	    		<?php endforeach; ?>
-	    	</select>
-			<input type="submit" name="" value="Выгнать" />
-			</form>
-
-
+			?>
 
 	       			<table >
 						<tr>
@@ -106,4 +108,11 @@
 	       </tr>
 	    	<?php endforeach; ?>
     	</table>
+
+
+<form action="http://novk.com/chat/send_chat_mes/<?php echo $chat_info['id']; ?>" method="POST">
+Сообщение: <input type="text" name="text">
+  <input type="submit" value="Отправить" />
+</form>
+
     </div>

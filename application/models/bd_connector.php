@@ -223,13 +223,12 @@ class bd_connector extends CI_Model {
 		{
 			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
-			$this->db->select('user_dop_info.id_user,name,birthday,phone,obaut,src,freand_type_name');
+			$this->db->select('user_dop_info.id_user,name,birthday,phone,obaut,src');
 			$this->db->from('user_dop_info');
 			$this->db->join('users_freand', 'users_freand.id_user_ov = user_dop_info.id_user');
-			$this->db->join('freand_type', 'freand_type.id = users_freand.id_freand_type');
 			$this->db->where('id_user_fr ', $user_id );
-
 			$this->db->where('id_freand_type', 1 );
+
 			$query = $this->db->get();
 		    return $query->result();
 		}
@@ -276,6 +275,8 @@ class bd_connector extends CI_Model {
 			$this->db->from('users_freand');
 			$this->db->join('user_dop_info', 'user_dop_info.id_user = users_freand.id_user_ov');
 			$this->db->where('id_user_fr', $user_id);
+			$this->db->where('id_freand_type', 2 );
+
 			$query = $this->db->get();
 		    return $query->result();
 		}
@@ -313,7 +314,7 @@ class bd_connector extends CI_Model {
 		    else
 		    {
 		    	$data = array(
-				   'freand_type_name' => 1 ,
+				   'id_freand_type' => 1 ,
 				);
 		    	$this->db->set($data);
 				$this->db->where('id_user_fr', $user_id);
@@ -323,7 +324,7 @@ class bd_connector extends CI_Model {
 				$data = array(
 				   'id_user_fr' => $id,
 				   'id_user_ov' => $user_id ,
-				   'freand_type_name' => 1 
+				   'id_freand_type' => 1 
 				);
 				$this->db->insert('users_freand', $data);
 				return true;	
@@ -358,45 +359,6 @@ class bd_connector extends CI_Model {
 		    	return true;	
 		    }
 		}
-		// возврощяет true если удачна 
-		public function create_chat_whiz($hash,$id)
-		{
-			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
-
-			$time = time();
-
-			$data = array(
-				'name' => 'диалог',
-				'date_create' => $time,
-				'src' => ''
-			);
-			$this->db->insert('chats', $data);
-
-			$this->db->select('*');
-			$this->db->from('chats');
-			$this->db->where('date_create', $time);
-			$this->db->where('name', 'диалог');
-			$query = $this->db->get();
-		    $val = $query->row_array();
-			$chat_id = $val['id'];
-
-
-			$data = array(
-				'id_user' => $user_id,
-				'id_chat' => $chat_id,
-				'id_chat_roll' => 1
-			);
-			$this->db->insert('chat_user', $data);
-
-
-			$data = array(
-				'id_user' => $id,
-				'id_chat' => $chat_id,
-				'id_chat_roll' => 2
-			);
-			$this->db->insert('chat_user', $data);
-			return true;
-		}
 		// true - в случаии успеха
 		// false - в случаи провала
 		public function cheng_chat_info($hash,$id,$name,$src)
@@ -429,14 +391,14 @@ class bd_connector extends CI_Model {
 		}
 		// true - в случаии успеха
 		// false - в случаи провала
-		public function send_chat_mess($hash,$id,$text)
+		public function send_chat_mess($hash,$id_chat,$text)
 		{
 			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
 			$this->db->select('*');
 			$this->db->from('chat_user');
 			$this->db->where('id_user', $user_id);
-			$this->db->where('id_chat', $id);
+			$this->db->where('id_chat', $id_chat);
 			$query = $this->db->get();
 		    $val = $query->row_array();
 
@@ -447,8 +409,8 @@ class bd_connector extends CI_Model {
 			else
 			{
 				$data = array(
-					'message' => $user_id,
-					'id_chat' => $id,
+					'id_user' => $user_id,
+					'id_chat' => $id_chat,
 					'text' => $text
 				);
 				$this->db->insert('message', $data);
@@ -576,10 +538,11 @@ class bd_connector extends CI_Model {
 		
 		// true - в случаии успеха
 		// false - в случаи провала
-		public function drop_from_chat($hash,$id_chat,$id_user1)
+		public function drop_from_chat($hash,$id_chat,$id_user)
 		{
 			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
 
+			
 			$this->db->select('*');
 			$this->db->from('chat_user');
 			$this->db->where('id_user', $user_id);
@@ -588,19 +551,28 @@ class bd_connector extends CI_Model {
 			$query = $this->db->get();
 		    $val = $query->row_array();
 
-			if(count($val)== 0)
+			if(count($val) != 0 || $user_id==$id_user)
 			{
-				return false;
+				$this->db->where('id_user', $id_user);
+				$this->db->where('id_chat', $id_chat);
+		    	$this->db->delete('chat_user');
+				return true;
 			}
 			else
 			{
-			    $this->db->where('id_user', $user_id1);
-				$this->db->where('id_chat', $id_chat);
-		    	$this->db->delete('users_freand');
-				return true;
-
+			    return false;
 			}
+
 		}
+		public function exit_chat($hash,$id_chat)
+		{
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
+			$this->db->where('id_user', $user_id);
+			$this->db->where('id_chat', $id_chat);
+	    	$this->db->delete('chat_user');
+			return true;
+		}
+
 		// false - в случаи провала
 		// в случаии успеха возврощяет масив сообщений
 		//	  $mass[i]['id']   							- int
@@ -636,5 +608,89 @@ class bd_connector extends CI_Model {
 
 			}
 		}
+		public function get_roles_from_chat($hash,$id_chat)
+		{
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
+
+			$this->db->select('id_chat_roll');
+			$this->db->from('chat_user');
+			$this->db->where('id_user', $user_id);
+			$this->db->where('id_chat', $id_chat);
+			$query = $this->db->get();
+		    $val = $query->row_array();
+
+			return  $val ;
+		}
+		public function create_chat($hash)
+		{
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
+
+			$time = time();
+
+			$data = array(
+				'name' => 'диалог',
+				'date_create' => $time,
+				'src' => ''
+			);
+			$this->db->insert('chats', $data);
+
+			$this->db->select('*');
+			$this->db->from('chats');
+			$this->db->where('date_create', $time);
+			$this->db->where('name', 'диалог');
+			$query = $this->db->get();
+		    $val = $query->row_array();
+			$chat_id = $val['id'];
+
+
+			$data = array(
+				'id_user' => $user_id,
+				'id_chat' => $chat_id,
+				'id_chat_roll' => 1
+			);
+			$this->db->insert('chat_user', $data);
+			return $chat_id;
+		}
+				// возврощяет true если удачна 
+		public function create_chat_whiz($hash,$id)
+		{
+			$user_id = 	$this->bd_connector->get_id_user_hash($hash);
+
+			$time = time();
+
+			$data = array(
+				'name' => 'диалог',
+				'date_create' => $time,
+				'src' => ''
+			);
+			$this->db->insert('chats', $data);
+
+			$this->db->select('*');
+			$this->db->from('chats');
+			$this->db->where('date_create', $time);
+			$this->db->where('name', 'диалог');
+			$query = $this->db->get();
+		    $val = $query->row_array();
+			$chat_id = $val['id'];
+
+
+			$data = array(
+				'id_user' => $user_id,
+				'id_chat' => $chat_id,
+				'id_chat_roll' => 1
+			);
+			$this->db->insert('chat_user', $data);
+
+
+			$data = array(
+				'id_user' => $id,
+				'id_chat' => $chat_id,
+				'id_chat_roll' => 2
+			);
+			$this->db->insert('chat_user', $data);
+			return $chat_id;
+		}
+
+
 }
  ?>

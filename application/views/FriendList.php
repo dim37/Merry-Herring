@@ -88,28 +88,24 @@
 					{
 
 						foreach ($friend_list as $key => $profile) {
-						echo "<tr><th class='Head'<label>Ключ</label></th><th>{$key}</th></tr>";
-						echo '<tr><th class="Head"><label> Айдишник: </label></th><th>'.$profile[0].'</th></tr>
-						<tr><th class="Head"><label> Имя: </label></th><th>'.$profile[1].'</th></tr>
-						<tr><th class="Head"><label> День рождение: </label></th><th>'.$profile[2].'</th></tr>
-						<tr><th class="Head"><label> О_пользователе: </label></th><th>'.$profile[3].'</th></tr>
-						<tr><th class="Head"><label> Телефон: </label></th><th>'.$profile[4].'</th></tr>
-						<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile[5].'</th></tr>';
-						if(count($profile)==7){
-							if($profile[6]==1||$profile[6]=="frend")
-							{
-								echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="drop_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';
-							}
-							else{
-								echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="add_friend/'.$profile[0].'">Добавить в друзья</a></button></th></tr>';
-							}
-						}
-						else
-							echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="send_invait_to_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';
+							echo "<tr><th class='Head'<label>Ключ</label></th><th>{$key}</th></tr>";
+							echo '<tr><th class="Head"><label> Айдишник: </label></th><th>'.$profile[0].'</th></tr>
+							<tr><th class="Head"><label> Имя: </label></th><th>'.$profile[1].'</th></tr>
+							<tr><th class="Head"><label> День рождение: </label></th><th>'.$profile[2].'</th></tr>
+							<tr><th class="Head"><label> О_пользователе: </label></th><th>'.$profile[3].'</th></tr>
+							<tr><th class="Head"><label> Телефон: </label></th><th>'.$profile[4].'</th></tr>
+							<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile[5].'</th></tr>';
+							
+							if($friend_type==null)
+								echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="http://novk.com/Profile/send_invait_to_friend/'.$profile[0].'">Послать запрос</a></button></th></tr>';
+							elseif($friend_type=="all")
+								echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="http://novk.com/Profile/add_friend/'.$profile[0].'">Добавить в друзья</a></button></th></tr>';
+							else
+									echo'<tr><th></th><th class="Head"><button type="button" class="RefBtn"><a href="http://novk.com/Profile/drop_friend/'.$profile[0].'">Удалить из друзей</a></button></th></tr>';					
 
-						echo'<tr><th class="Head"><label></label></th><th><button type="button" class="RefBtn"><a href="http://novk.com/chat/create_chat/'.$profile[0].'">Создать чат</a></button></th></tr>';
-						echo'<tr><th class="Head"><label></label></th><th></th></tr>';
-					}
+							echo'<tr><th class="Head"><label></label></th><th><button type="button" class="RefBtn"><a href="http://novk.com/chat/create_chat_whiz/'.$profile[0].'">Создать чат</a></button></th></tr>';
+							echo'<tr><th class="Head"><label></label></th><th></th></tr>';
+						}
 					}
 					?>
 			</table>

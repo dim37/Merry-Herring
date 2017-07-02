@@ -9,19 +9,21 @@ class Profile extends CI_Controller
 	public function friend_list($all = null){
 			
 		if(isset($_COOKIE["hash"])){
+
 			if(is_null($all))
 				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);		
-			elseif ($all="all") 
+			elseif ($all=="all") 
 				$result = $this->bd_connector->show_my_all_invait_to_frend($_COOKIE["hash"]);	
 			else
 				$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);
+			$data["friend_type"]=$all;
 			$arr=null;
 			foreach ($result as $key => $value) {
 				$arrForeach=null;
 				foreach ($value as $key => $valueResult) {
 					$arrForeach[]=$valueResult;
 				}
-				$arr[]=$arrForeach;
+					$arr[]=$arrForeach;
 				}
 
 			$this->load->view('Head');
@@ -50,19 +52,17 @@ class Profile extends CI_Controller
 		}
 	}
 	public function add_friend($id){
-		if($this->bd_connector->add_freand($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/something");}
-			else{}
+		$this->bd_connector->add_freand($_COOKIE["hash"],$id);
+			header("Location: /Profile/friend_list/all");
 	}
 	public function drop_friend($id){
-		if($this->bd_connector->drop_from_freand($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/");}
-			else{}
+		$this->bd_connector->drop_from_freand($_COOKIE["hash"],$id);
+			header("Location: /Profile/friend_list/Something");
 		}
 
 	public function send_invait_to_friend($id){
-		if($this->bd_connector->send_invait_to_frend($_COOKIE["hash"],$id)){	header("Location: /Profile/friend_list/all");}
-			else{}
+		$this->bd_connector->send_invait_to_frend($_COOKIE["hash"],$id);
+		header("Location: /Profile/friend_list");
 		}
-	
-
 }
 ?>

@@ -70,7 +70,6 @@
 
 </style>
 
-<form action="login" method="post">
 <div class="Login">
 <center>
 <div class="LoginHead">
@@ -113,4 +112,3 @@
 	</tr>
 </div>
 </div>
-</form>

@@ -82,19 +82,23 @@
 <div class="LoginContent">
 	<tr>
 		<td>
+			<form action="http://novk.com/chat/edit_profile" method="post">
 			<table>
-								<?php
+					<?php
 					if(!is_null($profile))
 					{
-						echo '<tr><th class="Head"><label> Айдишник: </label></th><th>'.$profile["id_user"].'</th></tr>
-						<tr><th class="Head"><label> Имя: </label></th><th>'.$profile["name"].'</th></tr>
-						<tr><th class="Head"><label> День рождение: </label></th><th>'.$profile["birthday"].'</th></tr>
-						<tr><th class="Head"><label> О_пользователе: </label></th><th>'.$profile["obaut"].'</th></tr>
-						<tr><th class="Head"><label> Телефон: </label></th><th>'.$profile["phone"].'</th></tr>
-						<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile["src"].'</th></tr>';
+						echo '
+						<tr><th class="Head"><label> Айдишник: </label></th><th>'.$profile["id_user"].'</th></tr>
+						<tr><th class="Head"><label> Имя: </label></th><th><input type="text" name="name" value="'.$profile["name"].'"/></th></tr>
+						<tr><th class="Head"><label> День рождение: </label></th><th><input type="date" name="birthday" value="'.$profile["birthday"].'"/></th></tr>
+						<tr><th class="Head"><label> О_пользователе: </label></th><th><input type="text" name="obaut" value="'.$profile["obaut"].'"/></th></tr>
+						<tr><th class="Head"><label> Телефон: </label></th><th><input type="text" name="phone" value="'.$profile["phone"].'"/></th></tr>
+						<tr><th class="Head"><label> Ссылка: </label></th><th>'.$profile["src"].'<input name="userfile" type="file" /></th></tr>';
 					}
 					?>
+					<tr><th class="Head"></th><th><input type="submit" value="Сохранить"/></th></tr>';
 			</table>
+			</form>
 		</td>
 	</tr>
 </div>

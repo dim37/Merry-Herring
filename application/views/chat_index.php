@@ -27,7 +27,7 @@
 		}
 	</style>
 
-  	<div>
+  	<div  style="width: 75%; display: inline-block; margin:15px">
   	<button type="button" class="RefBtn"><a href="http://novk.com/chat/create_chat">Создать чатик</a></button>
   	Список чатов
         <table class="table">

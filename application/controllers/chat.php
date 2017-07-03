@@ -11,7 +11,8 @@ class chat extends CI_Controller {
 
 	public function index($i = null)
 	{
-	if(isset($_COOKIE["hash"])){
+	if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 			$this->load->view('Head');
 		if($i == null){
 			$data['all_user'] = $this->bd_connector->get_all_user_chat($_COOKIE["hash"]);
@@ -30,11 +31,13 @@ class chat extends CI_Controller {
 				else
 					header("Location: /chat/index/");
 			}
-		}
+		
 	}
 
 	//Функционал чатиков
 	public function create_chat_whiz($id){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 		$id_chat = $this->bd_connector->create_chat_whiz($_COOKIE["hash"],$id);
 		if($id_chat == null)
 			header("Location: /chat/index/");
@@ -42,6 +45,8 @@ class chat extends CI_Controller {
 			header("Location: /chat/index/".$id_chat."/");
 	}
 	public function create_chat(){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 		$id_chat = $this->bd_connector->create_chat($_COOKIE["hash"]);
 		if($id_chat == null)
 			header("Location: /chat/index/");
@@ -50,12 +55,16 @@ class chat extends CI_Controller {
 	}
 
 	public function add_user_too_chat($id_chat){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 		if(isset($_POST["friend"])){
 		$this->bd_connector->add_user_too_chat($_COOKIE["hash"],$id_chat,$_POST["friend"]);
 		header("Location: /chat/index/".$id_chat."/");
 		}
 	}
 	public function drop_from_chat($id_chat){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 		if(isset($_POST["friend"]))
 		{
 			$this->bd_connector->drop_from_chat($_COOKIE["hash"],$id_chat,$_POST["friend"]);
@@ -63,11 +72,15 @@ class chat extends CI_Controller {
 		}
 	}
 	public function exit_chat($id_chat){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 			$this->bd_connector->exit_chat($_COOKIE["hash"],$id_chat);
 				header("Location: /chat/index");
 	}
 
 	public function send_chat_mes($id_chat){
+		if(!isset($_COOKIE["hash"])){
+				header("Location: /Home/index/");}
 		if(isset($_POST["text"])){
 			$this->bd_connector->send_chat_mess($_COOKIE["hash"],$id_chat,$_POST["text"]);
 			header("Location: /chat/index/".$id_chat."/");

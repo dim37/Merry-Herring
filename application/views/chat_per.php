@@ -34,14 +34,16 @@
 	</style>
 
 		
-	 			<div align="center">
+<div align="center" style="width: 75%; display: inline-block;">
 	 			<table>
 		    		<tr><td>Список пользователей:</td></tr>
-		    	<?php 
-		    	if($chat_people_list!=null)
-		    	foreach ($chat_people_list as $item): ?>
-		    		<tr><td><?php echo $item->name; ?></td></tr>
-		    	<?php endforeach; ?>
+		    		<tr><td >
+			    	<?php 
+			    	if($chat_people_list!=null)
+			    	foreach ($chat_people_list as $item): ?>
+			    		<div style="display: inline-block; border: 1px solid #ddd; "><?php echo $item->name; ?></div>
+			    	<?php endforeach; ?>
+		    	</td></tr>
 	    		</table>
 
 	 			Список сообщений<br/>
@@ -98,8 +100,7 @@
 							<td><div style="font-size: 25px;"><?php echo $chat_info['name']; ?></div></td>
 		    			</tr>
 	    			</table>
-				</div>
-    <div>
+
          <table >
 			
 	    	<?php 
@@ -126,4 +127,4 @@
   <input type="submit" value="Отправить" />
 </form>
 
-    </div>
+</div>

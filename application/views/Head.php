@@ -111,12 +111,21 @@
 </div>
 <div class="Control">
 <dd>
-	<button type="button" class="RefBtn Content"><a href="Profil">Моя странница</a></button>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/Profile/profile">Моя странница</a></button>
 </dd>
 <dd>
-	<button type="button" class="RefBtn Content"><a href="Message">Сообщения</a></button>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/chat/index">Сообщения</a></button>
 </dd>
 <dd>
-	<button type="button" class="RefBtn Content"><a href="Friends">Друзья</a></button>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/Profile/friend_list/Something">Друзья</a></button>
+</dd>
+<dd>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/Profile/friend_list/all">Запросы в друзья</a></button>
+</dd>
+<dd>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/Profile/friend_list">Все люди</a></button>
+</dd>
+<dd>
+	<button type="button" class="RefBtn Content"><a href="http://novk.com/Home/exit_profile">Выйти</a></button>
 </dd>
 </div>

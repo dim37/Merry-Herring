@@ -6,20 +6,63 @@ class Profile extends CI_Controller
             parent::__construct();
             $this->load->model('bd_connector');
     }
-	public function friend_list(){
+	public function friend_list($all = null){
+			
 		if(isset($_COOKIE["hash"])){
-			$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);	
-			foreach ($result as $key => $value) {
-				echo "{$key} => {$value}";
-			}
-		}
-	}
-	public function profile($id='1'){
-		if(isset($_POST["login"]))
-		{
 
+			if(is_null($all))
+				$result = $this->bd_connector->get_all_user($_COOKIE["hash"]);		
+			elseif ($all=="all") 
+				$result = $this->bd_connector->show_my_all_invait_to_frend($_COOKIE["hash"]);	
+			else
+				$result = $this->bd_connector->gat_user_freand($_COOKIE["hash"]);
+			$data["friend_type"]=$all;
+			$arr=null;
+			foreach ($result as $key => $value) {
+				$arrForeach=null;
+				foreach ($value as $key => $valueResult) {
+					$arrForeach[]=$valueResult;
+				}
+					$arr[]=$arrForeach;
+				}
+
+			$this->load->view('Head');
+
+			if($arr!=null)
+			{
+				$data["friend_list"]= $arr;
+				$this->load->view('FriendList',$data);
+			}
+			
 		}
-		//$this->load->view('profile');
+		
 	}
+	public function profile($id=null){
+		if(isset($_COOKIE["hash"])){
+			if(is_null($id)){//текущий пользователь
+				$result = $this->bd_connector->get_dop_info($_COOKIE["hash"]);	
+			}
+			else{//другой пользователь
+				$result = $this->bd_connector->get_dop_info_for_user($id);	
+			}
+		
+		$data["profile"]= $result;
+		$this->load->view('Head');
+			$this->load->view('Profile',$data);
+		}
+	}
+	public function add_friend($id){
+		$this->bd_connector->add_freand($_COOKIE["hash"],$id);
+			header("Location: /Profile/friend_list/all");
+	}
+	public function drop_friend($id){
+		$this->bd_connector->drop_from_freand($_COOKIE["hash"],$id);
+			header("Location: /Profile/friend_list/Something");
+		}
+
+	public function send_invait_to_friend($id){
+		$this->bd_connector->send_invait_to_frend($_COOKIE["hash"],$id);
+		header("Location: /Profile/friend_list");
+		}
 }
 ?>

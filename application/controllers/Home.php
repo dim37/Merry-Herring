@@ -7,24 +7,24 @@ class Home extends CI_Controller
             $this->load->model('bd_connector');
     }
 	public function index(){
+		if(!isset($_COOKIE["hash"]))
+				header("Location: /Home/login/");
+			else
+				header("Location: /Profile/profile/");
 		$this->load->view('Head');	
-		$data["message"]='Сообщение индекс';
-		$this->load->view('header',$data);
 
-		$data["content"]='Сообщение о том что все работает';
-		$this->load->view('content',$data);
 
 	}
 	public function registration(){
 			if(isset($_COOKIE["hash"])){
-				header("Location: /Oleg/Merry-Herring/Home/index/");
+				header("Location: /Home/index/");
 			}
 			elseif(isset($_POST["login"],$_POST["password"],$_POST["email"])){
 				$result = $this->bd_connector->registre_user($_POST["login"],$_POST["password"],$_POST["email"]);	
 				if($result===TRUE){
 					$result = $this->bd_connector->login_user($_POST["login"],$_POST["password"]);
-					setcookie('hash', $result, time() + 60*60*24*30,'/Oleg/Merry-Herring/');
-					header("Location: /Oleg/Merry-Herring/Home/index/");
+					setcookie('hash', $result, time() + 60*60*24*30,'/');
+					header("Location: /Home/index/");
 				}
 				else{
 					$data['login']=$_POST["login"];
@@ -39,19 +39,18 @@ class Home extends CI_Controller
 				$data['email']=null;
 				$data['error']=null;
 			}			
-			$this->load->view('Head');
 			$this->load->view('Registration',$data);
 	}	
 
 	public function login(){
 			if(isset($_COOKIE["hash"])){
-				header("Location: /Oleg/Merry-Herring/Home/index/");
+				header("Location: /Home/index/");
 			}
 			elseif(isset($_POST["login"],$_POST["password"])){
 				$result = $this->bd_connector->login_user($_POST["login"],$_POST["password"]);
 				if($result!="incorect login" && $result!="incorrect password"){
-					setcookie('hash', $result, time() + 60*60*24*30,'/Oleg/Merry-Herring/');
-					header("Location: /Oleg/Merry-Herring/Home/index/");
+					setcookie('hash', $result, time() + 60*60*24*30,'/');
+					header("Location: /Home/index/");
 				}
 				else {
 					$data['login']=$_POST["login"];
@@ -64,14 +63,13 @@ class Home extends CI_Controller
 				$data['password']=null;
 				$data['error']=null;
 			}
-			$this->load->view('Head');
 			$this->load->view('LoginIn',$data);
 	}
 
 	public function exit_profile(){
-		if(isset($_COOKIE["hash"]))
-		{
-			setcookie('hash', " ", time() - 1000000);
+		if(isset($_COOKIE["hash"])){
+			setcookie('hash', "", time() - 1000000, '/');
+			header("Location: /Home/login/");
 		}
 	}	
 }

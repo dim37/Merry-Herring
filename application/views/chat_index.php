@@ -28,9 +28,11 @@
 	</style>
 
   	<div>
+  	<button type="button" class="RefBtn"><a href="http://novk.com/chat/create_chat">Создать чатик</a></button>
+  	Список чатов
         <table class="table">
-	    <?php foreach ($caht_info as $item): ?>
-			<tr onclick="location.href='http://timwock.com/<?php echo $item->id; ?>'">
+	    <?php foreach ($all_user as $item): ?>
+			<tr onclick="location.href='http://novk.com/chat/index/<?php echo $item->id; ?>'">
 	        	<td><img src="<?php echo $item->src; ?>"/></td>
 				<td><div><?php echo $item->name; ?></div></td>
 	        </tr>

@@ -52,17 +52,16 @@ class Profile extends CI_Controller
 	{
 		if(!isset($_COOKIE["hash"])){
 			header("Location: /Home/index/");}
-
-		if(isset($_POST["name"], $_POST["birthday"], $_POST["obaut"], $_POST["phone"], $_FILES['userfile']))
+		elseif(isset($_POST["name"], $_POST["birthday"], $_POST["obaut"], $_POST["phone"], $_FILES['userfile']))
 		{ 
 			$rand = rand();
 			$src=md5($_FILES['userfile']['name'].$rand);
 			move_uploaded_file($_FILES['userfile']['tmp_name'], $src);
 
-			
-
-			header("Location: Ajax.html");
+			$this->bd_connector->cheng_or_create_dop_info($_COOKIE["hash"],$_POST["name"],$_POST["birthday"],$_POST["obaut"], $_POST["phone"], $src);
+			header("Location: /profile/profile/");}
 		}
+
 	}
 
 	public function add_friend($id){
